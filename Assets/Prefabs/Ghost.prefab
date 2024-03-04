@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 8965613915353295619}
   - component: {fileID: -4641157089248759169}
   - component: {fileID: 6599352118254651525}
-  - component: {fileID: -8968939377188734040}
+  - component: {fileID: -1415002601247779779}
   m_Layer: 3
   m_Name: Ghost
   m_TagString: Ghost
@@ -138,8 +138,8 @@ NavMeshAgent:
   m_Height: 2
   m_BaseOffset: 1
   m_WalkableMask: 4294967295
-  m_ObstacleAvoidanceType: 4
---- !u!114 &-8968939377188734040
+  m_ObstacleAvoidanceType: 0
+--- !u!114 &-1415002601247779779
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -148,7 +148,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 2230023846726348446}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 86bc900b64304624daa74df51119b5fd, type: 3}
+  m_Script: {fileID: 11500000, guid: fd77820d4d034db4dbde35a3cb8def3f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: {fileID: 0}
+  game: {fileID: 0}
+  fellow: {fileID: 0}
+  scaredMaterial: {fileID: 0}

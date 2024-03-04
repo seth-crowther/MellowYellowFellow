@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class YellowFellowGame : MonoBehaviour
 {
@@ -21,7 +19,7 @@ public class YellowFellowGame : MonoBehaviour
 
     GameObject[] pellets;
 
-    Ghost[] ghosts;
+    GhostStateManager[] ghosts;
 
 
     enum GameMode
@@ -33,10 +31,12 @@ public class YellowFellowGame : MonoBehaviour
 
     GameMode gameMode = GameMode.MainMenu;
 
+    public bool IsInGame() {  return gameMode == GameMode.InGame; }
+
     void Start()
     {
         pellets = GameObject.FindGameObjectsWithTag("Pellet");
-        ghosts = FindObjectsOfType<Ghost>();
+        ghosts = FindObjectsOfType<GhostStateManager>();
         StartMainMenu();
     }
 
@@ -112,7 +112,7 @@ public class YellowFellowGame : MonoBehaviour
     {
         playerObject.ResetPos();
 
-        foreach (Ghost ghost in ghosts)
+        foreach (GhostStateManager ghost in ghosts)
         {
             ghost.ResetPos();
         }

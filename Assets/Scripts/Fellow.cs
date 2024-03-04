@@ -1,9 +1,10 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Fellow : MonoBehaviour
 {
+    [SerializeField]
+    private YellowFellowGame game;
+
     [SerializeField]
     private float speed = 0.5f;
 
@@ -51,30 +52,34 @@ public class Fellow : MonoBehaviour
 
     private void Update()
     {
-        powerUpTime = Mathf.Max(0f, powerUpTime - Time.deltaTime);
+        if (game.IsInGame())
+            powerUpTime = Mathf.Max(0f, powerUpTime - Time.deltaTime);
     }
     private void FixedUpdate()
     {
-        Vector3 velocity = rb.velocity;
+        if (game.IsInGame())
+        {
+            Vector3 velocity = rb.velocity;
 
-        if (Input.GetKey(KeyCode.A))
-        {
-            velocity.x -= speed;
-        }
-        if (Input.GetKey(KeyCode.D))
-        {
-            velocity.x += speed;
-        }
-        if (Input.GetKey(KeyCode.W))
-        {
-            velocity.z += speed;
-        }
-        if (Input.GetKey(KeyCode.S))
-        {
-            velocity.z -= speed;
-        }
+            if (Input.GetKey(KeyCode.A))
+            {
+                velocity.x -= speed;
+            }
+            if (Input.GetKey(KeyCode.D))
+            {
+                velocity.x += speed;
+            }
+            if (Input.GetKey(KeyCode.W))
+            {
+                velocity.z += speed;
+            }
+            if (Input.GetKey(KeyCode.S))
+            {
+                velocity.z -= speed;
+            }
 
-        rb.velocity = velocity;
+            rb.velocity = velocity;
+        }
     }
 
     private void OnTriggerEnter(Collider other)
@@ -96,14 +101,15 @@ public class Fellow : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Ghost"))
         {
-            if (!PowerUpActive())
+            GhostStateManager ghost = collision.gameObject.GetComponent<GhostStateManager>();
+            if (ghost.IsChasing())
             {
                 Debug.Log("You Died!");
                 died = true;
             }
-            else
+            else if (ghost.IsHiding())
             {
-                StartCoroutine(collision.gameObject.GetComponent<Ghost>().GetEaten());
+               ghost.SwitchState(StateType.EATEN);
             }
         }
     }
