@@ -23,26 +23,20 @@ public class Fellow : MonoBehaviour
 
     private bool died;
 
-    public int PelletsEaten()
-    {
-        return pelletsEaten;
-    }
+    public int PelletsEaten() { return pelletsEaten; }
 
-    public bool IsDead()
-    {
-        return died;
-    }
+    public bool IsDead() { return died; }
+    public void SetDead(bool value) { died = value; }
+    public bool PowerUpActive() { return powerUpTime > 0f; }
+
 
     public void ResetPos()
     {
+        rb.velocity = Vector3.zero;
         transform.position = startingPos;
         died = false;
     }
 
-    public bool PowerUpActive()
-    {
-        return powerUpTime > 0f;
-    }
 
     private void Start()
     {
@@ -101,16 +95,7 @@ public class Fellow : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Ghost"))
         {
-            GhostStateManager ghost = collision.gameObject.GetComponent<GhostStateManager>();
-            if (ghost.IsChasing())
-            {
-                Debug.Log("You Died!");
-                died = true;
-            }
-            else if (ghost.IsHiding())
-            {
-               ghost.SwitchState(StateType.EATEN);
-            }
+            Debug.Log("Collided with ghost");
         }
     }
 }

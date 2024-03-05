@@ -3,6 +3,8 @@ public class GhostWaitingState : IGhostState
     public void EnterState(GhostStateManager ghost)
     {
         ghost.ResetMaterial();
+        ghost.GetAgent().isStopped = true;
+        ghost.ResetPos();
     }
 
     public void UpdateState(GhostStateManager ghost)
@@ -15,6 +17,6 @@ public class GhostWaitingState : IGhostState
 
     public void ExitState(GhostStateManager ghost)
     {
-
+        ghost.GetAgent().isStopped = false;
     }
 }

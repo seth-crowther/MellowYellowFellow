@@ -7441,6 +7441,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Pinky
       objectReference: {fileID: 0}
+    - target: {fileID: 8965613915353295619, guid: 420e9ccf035f7f944acc6a71eade7757, type: 3}
+      propertyPath: m_IsTrigger
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_AddedGameObjects: []
   m_SourcePrefab: {fileID: 100100000, guid: 420e9ccf035f7f944acc6a71eade7757, type: 3}
@@ -19899,7 +19903,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2692276498538875171, guid: c3db597c6720f7a43a1ce03620145243, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.5
+      value: 0.4
       objectReference: {fileID: 0}
     - target: {fileID: 2692276498538875171, guid: c3db597c6720f7a43a1ce03620145243, type: 3}
       propertyPath: m_LocalPosition.z

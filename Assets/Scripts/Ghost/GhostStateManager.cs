@@ -42,12 +42,10 @@ public class GhostStateManager : MonoBehaviour
     private GhostWaitingState waitingState;
 
     public Fellow GetFellow() { return fellow; }
+    public NavMeshAgent GetAgent() { return agent; }
     public void ResetPos() { agent.Warp(startingPos); }
     public void ResetMaterial() { GetComponent<Renderer>().material = normalMaterial; }
     public void SetScaredMaterial() { GetComponent<Renderer>().material = scaredMaterial; }
-    public Vector3 GetFellowPos() { return fellow.transform.position; }
-    public void SetDestination(Vector3 destination) { agent.SetDestination(destination); }
-    public bool ReachedDestination() { return agent.remainingDistance < 0.5f; }
     public bool AtStartPos() { return Vector3.Distance(transform.position, startingPos) < 0.5f; }
     public bool IsChasing() { return currentState == chasingState; }
     public bool IsHiding() { return currentState == hidingState; }
@@ -55,14 +53,14 @@ public class GhostStateManager : MonoBehaviour
     public void GetEaten()
     {
         gameObject.layer = LayerMask.NameToLayer("EatenGhost");
-        agent.speed = 15f;
+        agent.speed = 12f;
         agent.acceleration = 9999f;
         agent.destination = startingPos;
     }
 
     public void StopBeingEaten()
     {
-        agent.speed = 3.5f;
+        agent.speed = 3f;
         agent.acceleration = 8f;
         gameObject.layer = LayerMask.NameToLayer("Ghost");
     }

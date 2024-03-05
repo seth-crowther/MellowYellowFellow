@@ -16,11 +16,11 @@ public class GhostChasingState : IGhostState
 
         if (CanSeePlayer(ghost))
         {
-            ghost.SetDestination(ghost.GetFellowPos());
+            ghost.GetAgent().destination = ghost.GetFellow().transform.position;
         }
-        else if (ghost.ReachedDestination())
+        else if (ghost.GetAgent().remainingDistance < 0.25f)
         {
-            ghost.SetDestination(PickRandomPosition(ghost));
+            ghost.GetAgent().destination = PickRandomPosition(ghost);
         }
     }
     public void ExitState(GhostStateManager ghost)
@@ -31,7 +31,7 @@ public class GhostChasingState : IGhostState
     public bool CanSeePlayer(GhostStateManager ghost)
     {
         Vector3 rayPos = ghost.transform.position;
-        Vector3 rayDir = (ghost.GetFellowPos() - rayPos).normalized;
+        Vector3 rayDir = (ghost.GetFellow().transform.position - rayPos).normalized;
 
         RaycastHit hit;
         if (Physics.Raycast(rayPos, rayDir, out hit))

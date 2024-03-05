@@ -18,6 +18,5 @@ public class GhostEatenState : IGhostState
     public void ExitState(GhostStateManager ghost) 
     {
         ghost.StopBeingEaten();
-        Debug.Log("Exiting eaten state");
     }
 }
