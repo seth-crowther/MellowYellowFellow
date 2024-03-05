@@ -1,3 +1,5 @@
+using UnityEngine;
+
 public class GhostEatenState : IGhostState
 {
     public void EnterState(GhostStateManager ghost)
@@ -7,7 +9,7 @@ public class GhostEatenState : IGhostState
 
     public void UpdateState(GhostStateManager ghost)
     {
-        if (ghost.ReachedDestination())
+        if (ghost.AtStartPos())
         {
             ghost.SwitchState(StateType.WAITING);
         }
@@ -16,5 +18,6 @@ public class GhostEatenState : IGhostState
     public void ExitState(GhostStateManager ghost) 
     {
         ghost.StopBeingEaten();
+        Debug.Log("Exiting eaten state");
     }
 }

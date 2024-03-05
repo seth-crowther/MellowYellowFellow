@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class Teleporter : MonoBehaviour
 {
@@ -19,14 +20,19 @@ public class Teleporter : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.CompareTag("Fellow") || other.gameObject.CompareTag("Ghost"))
-            otherTeleporter.TeleportToMe(other.gameObject);
+        otherTeleporter.TeleportToMe(other.gameObject);
     }
 
     public void TeleportToMe(GameObject obj)
     {
-        Debug.Log(obj.tag);
-        Debug.Log("Teleported from: " + otherTeleporter.transform.position + "; Teleported to: " + destination);
-        obj.transform.position = destination;
+        if (obj.CompareTag("Fellow"))
+        {
+            Debug.Log("Teleported to: " + destination);
+            obj.transform.position = destination;
+        }
+        else if (obj.CompareTag("Ghost"))
+        {
+            obj.GetComponent<NavMeshAgent>().Warp(destination);
+        }
     }
 }

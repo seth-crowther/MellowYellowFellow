@@ -48,6 +48,7 @@ public class GhostStateManager : MonoBehaviour
     public Vector3 GetFellowPos() { return fellow.transform.position; }
     public void SetDestination(Vector3 destination) { agent.SetDestination(destination); }
     public bool ReachedDestination() { return agent.remainingDistance < 0.5f; }
+    public bool AtStartPos() { return Vector3.Distance(transform.position, startingPos) < 0.5f; }
     public bool IsChasing() { return currentState == chasingState; }
     public bool IsHiding() { return currentState == hidingState; }
 
