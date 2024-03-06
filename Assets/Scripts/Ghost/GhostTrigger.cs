@@ -18,7 +18,7 @@ public class GhostTrigger : MonoBehaviour
             if (ghost.IsChasing())
             {
                 Debug.Log("You Died!");
-                ghost.GetFellow().SetDead(true);
+                ghost.GetFellow().Die();
             }
             else if (ghost.IsHiding())
             {

@@ -6,6 +6,11 @@ public class Fellow : MonoBehaviour
     private YellowFellowGame game;
 
     [SerializeField]
+    private LifeCounter lifeCounter;
+
+    private int lives = 3;
+
+    [SerializeField]
     private float speed = 0.5f;
 
     private int score = 0;
@@ -21,11 +26,7 @@ public class Fellow : MonoBehaviour
 
     private Vector3 startingPos;
 
-    private bool died;
-
     public int PelletsEaten() { return pelletsEaten; }
-    public bool IsDead() { return died; }
-    public void SetDead(bool value) { died = value; }
     public bool PowerUpActive() { return powerUpTime > 0f; }
 
 
@@ -33,7 +34,6 @@ public class Fellow : MonoBehaviour
     {
         rb.velocity = Vector3.zero;
         transform.position = startingPos;
-        died = false;
     }
 
 
@@ -87,6 +87,21 @@ public class Fellow : MonoBehaviour
         if (other.gameObject.CompareTag("Powerup"))
         {
             powerUpTime = powerUpDuration;
+        }
+    }
+
+    public void Die()
+    {
+        lives--;
+        lifeCounter.UpdateCounter(lives);
+
+        if (lives == 0)
+        {
+            Debug.Log("Game over");
+        }
+        else
+        {
+            game.ResetGame();
         }
     }
 }

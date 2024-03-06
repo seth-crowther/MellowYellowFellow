@@ -15,7 +15,7 @@ public class YellowFellowGame : MonoBehaviour
     GameObject winUI;
 
     [SerializeField]
-    Fellow playerObject;
+    Fellow fellow;
 
     GameObject[] pellets;
 
@@ -72,14 +72,9 @@ public class YellowFellowGame : MonoBehaviour
 
     void UpdateMainGame()
     {
-       if (playerObject.PelletsEaten() == pellets.Length)
+       if (fellow.PelletsEaten() == pellets.Length)
        {
             Debug.Log("Level Completed!");
-       }
-
-       if (playerObject.IsDead())
-       {
-            ResetGame();
        }
     }
 
@@ -108,9 +103,9 @@ public class YellowFellowGame : MonoBehaviour
         gameUI.gameObject.SetActive(true);
     }
 
-    void ResetGame()
+    public void ResetGame()
     {
-        playerObject.ResetPos();
+        fellow.ResetPos();
 
         foreach (GhostStateManager ghost in ghosts)
         {
