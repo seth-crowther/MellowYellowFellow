@@ -24,7 +24,6 @@ public class Fellow : MonoBehaviour
     private bool died;
 
     public int PelletsEaten() { return pelletsEaten; }
-
     public bool IsDead() { return died; }
     public void SetDead(bool value) { died = value; }
     public bool PowerUpActive() { return powerUpTime > 0f; }
@@ -88,14 +87,6 @@ public class Fellow : MonoBehaviour
         if (other.gameObject.CompareTag("Powerup"))
         {
             powerUpTime = powerUpDuration;
-        }
-    }
-
-    private void OnCollisionEnter(Collision collision)
-    {
-        if (collision.gameObject.CompareTag("Ghost"))
-        {
-            Debug.Log("Collided with ghost");
         }
     }
 }
