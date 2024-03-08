@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using TMPro;
+using UnityEngine;
 
 public class YellowFellowGame : MonoBehaviour
 {
@@ -21,12 +22,14 @@ public class YellowFellowGame : MonoBehaviour
 
     GhostStateManager[] ghosts;
 
+    float difficulty = 1.0f;
 
     enum GameMode
     {
         InGame,
         MainMenu,
-        HighScores
+        HighScores,
+        Win
     }
 
     GameMode gameMode = GameMode.MainMenu;
@@ -47,6 +50,7 @@ public class YellowFellowGame : MonoBehaviour
             case GameMode.MainMenu:     UpdateMainMenu(); break;
             case GameMode.HighScores:   UpdateHighScores(); break;
             case GameMode.InGame:       UpdateMainGame(); break;
+            case GameMode.Win:          UpdateWinScreen(); break;
         }
     }
 
@@ -76,6 +80,20 @@ public class YellowFellowGame : MonoBehaviour
        {
             Debug.Log("Level Completed!");
        }
+
+        if (fellow.GetLives() <= 0)
+        {
+            StartWinScreen();
+        }
+    }
+
+    void UpdateWinScreen()
+    {
+        if (Input.GetKeyDown(KeyCode.Return))
+        {
+            ResetGame();
+            StartMainMenu();
+        }
     }
 
     void StartMainMenu()
@@ -84,6 +102,7 @@ public class YellowFellowGame : MonoBehaviour
         mainMenuUI.gameObject.SetActive(true);
         highScoreUI.gameObject.SetActive(false);
         gameUI.gameObject.SetActive(false);
+        winUI.gameObject.SetActive(false);
     }
 
 
@@ -93,6 +112,7 @@ public class YellowFellowGame : MonoBehaviour
         mainMenuUI.gameObject.SetActive(false);
         highScoreUI.gameObject.SetActive(true);
         gameUI.gameObject.SetActive(false);
+        winUI.gameObject.SetActive(false);
     }
 
     void StartGame()
@@ -101,6 +121,24 @@ public class YellowFellowGame : MonoBehaviour
         mainMenuUI.gameObject.SetActive(false);
         highScoreUI.gameObject.SetActive(false);
         gameUI.gameObject.SetActive(true);
+        winUI.gameObject.SetActive(false);
+
+        fellow.Init();
+        foreach (GameObject obj in pellets) { obj.SetActive(true); } 
+    }
+
+    void StartWinScreen()
+    {
+        gameMode = GameMode.Win;
+        mainMenuUI.gameObject.SetActive(false);
+        highScoreUI.gameObject.SetActive(false);
+        gameUI.gameObject.SetActive(false);
+        winUI.gameObject.SetActive(true);
+
+        foreach (GhostStateManager ghost in ghosts) { ghost.GetAgent().isStopped = true; }
+
+        TextMeshProUGUI text = winUI.transform.GetChild(1).gameObject.GetComponent<TextMeshProUGUI>();
+        text.text = "Game Over!\nYour score was: " + fellow.GetScore();
     }
 
     public void ResetGame()
@@ -111,5 +149,10 @@ public class YellowFellowGame : MonoBehaviour
         {
             ghost.ResetPos();
         }
+    }
+
+    public void NextLevel()
+    {
+
     }
 }

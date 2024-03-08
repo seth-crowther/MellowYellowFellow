@@ -20,7 +20,7 @@ public class LifeCounter : MonoBehaviour
             obj.SetActive(false);
         }
 
-        for (int i = 0; i < lives; i++)
+        for (int i = lifeObjects.Length - lives; i < lifeObjects.Length; i++)
         {
             lifeObjects[i].SetActive(true);
         }

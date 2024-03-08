@@ -36,11 +36,24 @@ public class Fellow : MonoBehaviour
         transform.position = startingPos;
     }
 
+    public void Init()
+    {
+        score = 0;
+        pelletsEaten = 0;
+        lives = 3;
+    }
+
+    public int GetScore() { return score; }
+
+    public int GetLives() { return lives; }
 
     private void Start()
     {
         rb = GetComponent<Rigidbody>();
         startingPos = transform.position;
+        score = 0;
+        pelletsEaten = 0;
+        lives = 3;
     }
 
     private void Update()
@@ -95,11 +108,7 @@ public class Fellow : MonoBehaviour
         lives--;
         lifeCounter.UpdateCounter(lives);
 
-        if (lives == 0)
-        {
-            Debug.Log("Game over");
-        }
-        else
+        if (lives != 0)
         {
             game.ResetGame();
         }

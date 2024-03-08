@@ -43,7 +43,13 @@ public class GhostStateManager : MonoBehaviour
 
     public Fellow GetFellow() { return fellow; }
     public NavMeshAgent GetAgent() { return agent; }
-    public void ResetPos() { agent.Warp(startingPos); }
+    public void ResetPos() 
+    {
+        agent.isStopped = true;
+        agent.Warp(startingPos);
+        agent.destination = startingPos;
+        agent.isStopped = false;
+    }
     public void ResetMaterial() { GetComponent<Renderer>().material = normalMaterial; }
     public void SetScaredMaterial() { GetComponent<Renderer>().material = scaredMaterial; }
     public bool AtStartPos() { return Vector3.Distance(transform.position, startingPos) < 0.5f; }
