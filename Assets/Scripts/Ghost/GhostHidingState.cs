@@ -1,17 +1,23 @@
+using System;
 using UnityEngine;
 using UnityEngine.AI;
 
 public class GhostHidingState : IGhostState
 {
+    float powerUpDuration = 10.0f;
+    DateTime start;
+
     public void EnterState(GhostStateManager ghost)
     {
+        start = DateTime.Now;
         ghost.SetScaredMaterial();
     }
     public void UpdateState(GhostStateManager ghost)
     {
         ghost.GetAgent().destination = PickHidingPlace(ghost);
 
-        if (!ghost.GetFellow().PowerUpActive())
+        TimeSpan elapsedTime = DateTime.Now - start;
+        if (elapsedTime.TotalSeconds > powerUpDuration)
         {
             ghost.SwitchState(StateType.CHASING);
         }

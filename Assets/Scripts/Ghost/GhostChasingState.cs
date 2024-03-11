@@ -9,11 +9,6 @@ public class GhostChasingState : IGhostState
     }
     public void UpdateState(GhostStateManager ghost)
     {
-        if (ghost.GetFellow().PowerUpActive())
-        {
-            ghost.SwitchState(StateType.HIDING);
-        }
-
         if (CanSeePlayer(ghost))
         {
             ghost.GetAgent().destination = ghost.GetFellow().transform.position;

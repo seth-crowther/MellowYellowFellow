@@ -33,8 +33,10 @@ public class GhostStateManager : MonoBehaviour
 
     private NavMeshAgent agent;
 
-    private Dictionary<StateType, IGhostState> stateParser;
+    private bool alreadyEaten;
 
+    // State machine
+    private Dictionary<StateType, IGhostState> stateParser;
     private IGhostState currentState;
     private GhostChasingState chasingState;
     private GhostHidingState hidingState;
@@ -55,6 +57,13 @@ public class GhostStateManager : MonoBehaviour
     public bool AtStartPos() { return Vector3.Distance(transform.position, startingPos) < 0.5f; }
     public bool IsChasing() { return currentState == chasingState; }
     public bool IsHiding() { return currentState == hidingState; }
+    public void Hide()
+    {
+        if (currentState == chasingState)
+        {
+            SwitchState(StateType.HIDING);
+        }
+    }
 
     public void GetEaten()
     {

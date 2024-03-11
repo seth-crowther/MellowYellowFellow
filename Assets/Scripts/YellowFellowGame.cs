@@ -24,6 +24,8 @@ public class YellowFellowGame : MonoBehaviour
 
     float difficulty = 1.0f;
 
+    public GhostStateManager[] GetGhosts() {  return ghosts; }
+
     enum GameMode
     {
         InGame,

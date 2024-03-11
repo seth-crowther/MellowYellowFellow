@@ -17,17 +17,11 @@ public class Fellow : MonoBehaviour
     private int pelletsEaten = 0;
     private const int pointsPerPellet = 100;
 
-    [SerializeField]
-    private const float powerUpDuration = 10f;
-
-    private float powerUpTime = 0f;
-
     private Rigidbody rb;
 
     private Vector3 startingPos;
 
     public int PelletsEaten() { return pelletsEaten; }
-    public bool PowerUpActive() { return powerUpTime > 0f; }
 
 
     public void ResetPos()
@@ -58,9 +52,9 @@ public class Fellow : MonoBehaviour
 
     private void Update()
     {
-        if (game.IsInGame())
-            powerUpTime = Mathf.Max(0f, powerUpTime - Time.deltaTime);
+
     }
+
     private void FixedUpdate()
     {
         if (game.IsInGame())
@@ -99,7 +93,10 @@ public class Fellow : MonoBehaviour
 
         if (other.gameObject.CompareTag("Powerup"))
         {
-            powerUpTime = powerUpDuration;
+            foreach (GhostStateManager g in game.GetGhosts())
+            {
+                g.Hide();
+            }
         }
     }
 
