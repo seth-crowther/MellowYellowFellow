@@ -22,7 +22,7 @@ public class Fellow : MonoBehaviour
     private Vector3 startingPos;
 
     public int PelletsEaten() { return pelletsEaten; }
-
+    public void ResetPelletsEaten() { pelletsEaten = 0; }
 
     public void ResetPos()
     {
@@ -46,9 +46,8 @@ public class Fellow : MonoBehaviour
     {
         rb = GetComponent<Rigidbody>();
         startingPos = transform.position;
-        score = 0;
-        pelletsEaten = 0;
-        lives = 3;
+
+        Init();
     }
 
     private void Update()
@@ -89,7 +88,6 @@ public class Fellow : MonoBehaviour
         {
             pelletsEaten++;
             score += pointsPerPellet;
-            Debug.Log("Score is: " + score);
         }
 
         if (other.gameObject.CompareTag("Powerup"))

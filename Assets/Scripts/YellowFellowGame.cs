@@ -16,6 +16,9 @@ public class YellowFellowGame : MonoBehaviour
     GameObject winUI;
 
     [SerializeField]
+    TextMeshProUGUI winScreenTitle;
+
+    [SerializeField]
     Fellow fellow;
 
     GameObject[] pellets;
@@ -24,7 +27,7 @@ public class YellowFellowGame : MonoBehaviour
 
     int level = 1;
 
-    public float GetLevel() {  return level; }
+    public int GetLevel() { return level; }
 
     public GhostStateManager[] GetGhosts() {  return ghosts; }
 
@@ -85,6 +88,7 @@ public class YellowFellowGame : MonoBehaviour
        {
             Debug.Log("Next level");
             level++;
+            fellow.ResetPelletsEaten();
             ResetCharsPos();
             foreach (GameObject obj in pellets) { obj.SetActive(true); }
             foreach (GameObject obj in powerups) { obj.SetActive(true); }
@@ -145,8 +149,7 @@ public class YellowFellowGame : MonoBehaviour
 
         foreach (GhostStateManager ghost in ghosts) { ghost.GetAgent().isStopped = true; }
 
-        TextMeshProUGUI text = winUI.transform.GetChild(1).gameObject.GetComponent<TextMeshProUGUI>();
-        text.text = "Game Over!\nYour score was: " + fellow.GetScore();
+        winScreenTitle.text = "Game Over!\nYour score was: " + fellow.GetScore();
     }
 
     public void ResetGame()
