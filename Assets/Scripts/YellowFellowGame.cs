@@ -19,10 +19,12 @@ public class YellowFellowGame : MonoBehaviour
     Fellow fellow;
 
     GameObject[] pellets;
-
+    GameObject[] powerups;
     GhostStateManager[] ghosts;
 
-    float difficulty = 1.0f;
+    int level = 1;
+
+    public float GetLevel() {  return level; }
 
     public GhostStateManager[] GetGhosts() {  return ghosts; }
 
@@ -41,6 +43,7 @@ public class YellowFellowGame : MonoBehaviour
     void Start()
     {
         pellets = GameObject.FindGameObjectsWithTag("Pellet");
+        powerups = GameObject.FindGameObjectsWithTag("Powerup");
         ghosts = FindObjectsOfType<GhostStateManager>();
         StartMainMenu();
     }
@@ -80,8 +83,12 @@ public class YellowFellowGame : MonoBehaviour
     {
        if (fellow.PelletsEaten() == pellets.Length)
        {
-            Debug.Log("Level Completed!");
-       }
+            Debug.Log("Next level");
+            level++;
+            ResetCharsPos();
+            foreach (GameObject obj in pellets) { obj.SetActive(true); }
+            foreach (GameObject obj in powerups) { obj.SetActive(true); }
+        }
 
         if (fellow.GetLives() <= 0)
         {
@@ -125,8 +132,7 @@ public class YellowFellowGame : MonoBehaviour
         gameUI.gameObject.SetActive(true);
         winUI.gameObject.SetActive(false);
 
-        fellow.Init();
-        foreach (GameObject obj in pellets) { obj.SetActive(true); } 
+        ResetGame();
     }
 
     void StartWinScreen()
@@ -145,16 +151,21 @@ public class YellowFellowGame : MonoBehaviour
 
     public void ResetGame()
     {
+        ResetCharsPos();
+
+        foreach (GameObject obj in powerups) { obj.SetActive(true); }
+        foreach (GameObject obj in pellets) { obj.SetActive(true); }
+
+        fellow.Init();
+    }
+
+    public void ResetCharsPos()
+    {
         fellow.ResetPos();
 
         foreach (GhostStateManager ghost in ghosts)
         {
             ghost.ResetPos();
         }
-    }
-
-    public void NextLevel()
-    {
-
     }
 }

@@ -33,7 +33,8 @@ public class GhostStateManager : MonoBehaviour
 
     private NavMeshAgent agent;
 
-    private bool alreadyEaten;
+    const float speedPerLevel = 0.15f;
+    private float initialSpeed = 1.5f;
 
     // State machine
     private Dictionary<StateType, IGhostState> stateParser;
@@ -50,6 +51,7 @@ public class GhostStateManager : MonoBehaviour
         agent.isStopped = true;
         agent.Warp(startingPos);
         agent.destination = startingPos;
+        SwitchState(StateType.WAITING);
         agent.isStopped = false;
     }
     public void ResetMaterial() { GetComponent<Renderer>().material = normalMaterial; }
@@ -59,7 +61,7 @@ public class GhostStateManager : MonoBehaviour
     public bool IsHiding() { return currentState == hidingState; }
     public void Hide()
     {
-        if (currentState == chasingState)
+        if (currentState == chasingState || currentState == hidingState)
         {
             SwitchState(StateType.HIDING);
         }
@@ -69,14 +71,12 @@ public class GhostStateManager : MonoBehaviour
     {
         gameObject.layer = LayerMask.NameToLayer("EatenGhost");
         agent.speed = 12f;
-        agent.acceleration = 9999f;
         agent.destination = startingPos;
     }
 
     public void StopBeingEaten()
     {
-        agent.speed = 3f;
-        agent.acceleration = 8f;
+        UpdateSpeed();
         gameObject.layer = LayerMask.NameToLayer("Ghost");
     }
 
@@ -94,6 +94,8 @@ public class GhostStateManager : MonoBehaviour
     void Start()
     {
         agent = GetComponent<NavMeshAgent>();
+        UpdateSpeed();
+        agent.acceleration = 999f;
         normalMaterial = GetComponent<Renderer>().material;
 
         startingPos = transform.position;
@@ -114,6 +116,11 @@ public class GhostStateManager : MonoBehaviour
     {
         if (game.IsInGame())
             currentState.UpdateState(this);
+    }
+
+    public void UpdateSpeed()
+    {
+        agent.speed = initialSpeed + game.GetLevel() * speedPerLevel;
     }
 
     public void SwitchState(StateType newState)

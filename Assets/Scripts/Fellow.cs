@@ -35,6 +35,7 @@ public class Fellow : MonoBehaviour
         score = 0;
         pelletsEaten = 0;
         lives = 3;
+        lifeCounter.UpdateCounter(lives);
     }
 
     public int GetScore() { return score; }
@@ -107,7 +108,7 @@ public class Fellow : MonoBehaviour
 
         if (lives != 0)
         {
-            game.ResetGame();
+            game.ResetCharsPos();
         }
     }
 }

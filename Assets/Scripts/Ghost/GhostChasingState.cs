@@ -6,6 +6,7 @@ public class GhostChasingState : IGhostState
     public void EnterState(GhostStateManager ghost)
     {
         ghost.ResetMaterial();
+        ghost.UpdateSpeed();
     }
     public void UpdateState(GhostStateManager ghost)
     {

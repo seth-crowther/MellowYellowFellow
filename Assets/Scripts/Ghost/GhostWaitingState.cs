@@ -2,14 +2,13 @@ using System;
 
 public class GhostWaitingState : IGhostState
 {
-    const float waitTime = 5.0f;
+    const float waitTime = 2.5f;
     DateTime start;
     public void EnterState(GhostStateManager ghost)
     {
         start = DateTime.Now;
         ghost.ResetMaterial();
         ghost.GetAgent().isStopped = true;
-        ghost.ResetPos();
     }
 
     public void UpdateState(GhostStateManager ghost)
