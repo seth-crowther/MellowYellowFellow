@@ -7,6 +7,9 @@ using UnityEngine;
 
 public class HighScoreCounter : MonoBehaviour
 {
+    [SerializeField]
+    Fellow fellow;
+
     TextMeshProUGUI text;
     int highScore = int.MinValue;
     string highScoreName;
@@ -15,15 +18,20 @@ public class HighScoreCounter : MonoBehaviour
     {
         text = GetComponent<TextMeshProUGUI>();
         UpdateHighScore();
-        text.text = "High Score\n" + highScore;
+        SetText(highScore);
     }
 
     void Update()
     {
-        
+        // Update high score live if current player exceeds it
+        if (fellow.GetScore() > highScore)
+        {
+            SetText(fellow.GetScore());
+        }
     }
 
-    void UpdateHighScore()
+    // Want to avoid reading from file every frame so only call when level is loaded
+    public void UpdateHighScore()
     {
         StreamReader scoresFile = new StreamReader("scores.txt");
 
@@ -41,5 +49,10 @@ public class HighScoreCounter : MonoBehaviour
         }
 
         scoresFile.Close();
+    }
+
+    void SetText(int score)
+    {
+        text.text = "High Score\n" + score;
     }
 }

@@ -51,7 +51,6 @@ public class GhostStateManager : MonoBehaviour
         agent.isStopped = true;
         agent.Warp(startingPos);
         agent.destination = startingPos;
-        SwitchState(StateType.WAITING);
         agent.isStopped = false;
     }
     public void ResetMaterial() { GetComponent<Renderer>().material = normalMaterial; }

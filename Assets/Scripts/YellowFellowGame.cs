@@ -19,6 +19,9 @@ public class YellowFellowGame : MonoBehaviour
     TextMeshProUGUI winScreenTitle;
 
     [SerializeField]
+    HighScoreCounter hsc;
+
+    [SerializeField]
     Fellow fellow;
 
     GameObject[] pellets;
@@ -159,6 +162,7 @@ public class YellowFellowGame : MonoBehaviour
         foreach (GameObject obj in powerups) { obj.SetActive(true); }
         foreach (GameObject obj in pellets) { obj.SetActive(true); }
 
+        hsc.UpdateHighScore();
         fellow.Init();
     }
 
@@ -168,7 +172,7 @@ public class YellowFellowGame : MonoBehaviour
 
         foreach (GhostStateManager ghost in ghosts)
         {
-            ghost.ResetPos();
+            ghost.SwitchState(StateType.WAITING);
         }
     }
 }

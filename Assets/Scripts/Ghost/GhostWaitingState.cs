@@ -9,6 +9,7 @@ public class GhostWaitingState : IGhostState
         start = DateTime.Now;
         ghost.ResetMaterial();
         ghost.GetAgent().isStopped = true;
+        ghost.ResetPos();
     }
 
     public void UpdateState(GhostStateManager ghost)
