@@ -1,6 +1,4 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using System.IO;
 using TMPro;
 using UnityEngine;
@@ -24,9 +22,9 @@ public class HighScoreCounter : MonoBehaviour
     void Update()
     {
         // Update high score live if current player exceeds it
-        if (fellow.GetScore() > highScore)
+        if (Fellow.GetScore() > highScore)
         {
-            SetText(fellow.GetScore());
+            SetText(Fellow.GetScore());
         }
     }
 

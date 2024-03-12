@@ -113,8 +113,7 @@ public class GhostStateManager : MonoBehaviour
 
     void Update()
     {
-        if (game.IsInGame())
-            currentState.UpdateState(this);
+        currentState.UpdateState(this);
     }
 
     public void UpdateSpeed()
