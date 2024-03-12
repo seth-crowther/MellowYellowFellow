@@ -27,7 +27,6 @@ public class Teleporter : MonoBehaviour
     {
         if (obj.CompareTag("Fellow"))
         {
-            Debug.Log("Teleported to: " + destination);
             obj.transform.position = destination;
         }
         else if (obj.CompareTag("Ghost"))
