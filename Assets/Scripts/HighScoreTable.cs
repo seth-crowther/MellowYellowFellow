@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -12,6 +13,14 @@ public class HighScoreTable : MonoBehaviour
     [SerializeField]
     private Font scoreFont;
 
+    [SerializeField]
+    TextMeshProUGUI namesColumn;
+
+    [SerializeField]
+    TextMeshProUGUI scoresColumn;
+
+    private const int numScoresShown = 10;
+
     struct HighScoreEntry 
     {
         public int score;
@@ -19,27 +28,23 @@ public class HighScoreTable : MonoBehaviour
     }
 
     List<HighScoreEntry> allScores = new List<HighScoreEntry>();
-
-    private void Start()
+    void OnEnable()
     {
         LoadHighScoreTable();
         SortHighScoreEntries();
         CreateHighScoreText();
-    }
-
-    private void Update()
-    {
-        
+        TrimTextFile();
     }
 
     public void LoadHighScoreTable()
     {
+        allScores.Clear();
+
         using (TextReader file = File.OpenText(highScoreFile))
         {
             string text = null;
             while ((text = file.ReadLine()) != null)
             {
-                Debug.Log(text);
                 string[] splits = text.Split(' ');
                 HighScoreEntry entry;
                 entry.name = splits[0];
@@ -56,22 +61,30 @@ public class HighScoreTable : MonoBehaviour
 
     private void CreateHighScoreText()
     {
-        for (int i = 0; i < allScores.Count; i++)
+        string names = "";
+        string scores = "";
+
+        // Only show top numScoresShown high scores
+        for (int i = 0; i < numScoresShown; i++)
         {
-            GameObject g = new GameObject();
-            g.transform.parent = transform;
-
-            Text t = g.AddComponent<Text>();
-            t.text = allScores[i].name + "\t\t" + allScores[i].score;
-            t.font = scoreFont;
-            t.fontSize = 50;
-            t.color = Color.white;
-
-            g.transform.localPosition = new Vector3(0, (-i) * 6, 0);
-            g.transform.localRotation = Quaternion.identity;
-            g.transform.localScale = new Vector3(0.1f, 0.1f, 0.1f);
-
-            g.GetComponent<RectTransform>().sizeDelta = new Vector2(400, 100);
+            names += allScores[i].name + "\n";
+            scores += allScores[i].score + "\n";
         }
+
+        namesColumn.text = names;
+        scoresColumn.text = scores;
+    }
+
+    void TrimTextFile()
+    {
+        // Trim text file to top numScoresShown entries so it doesn't increase in size forever
+        StreamWriter writer = new StreamWriter("scores.txt");
+
+        for (int i = 0; i < numScoresShown; i++)
+        {
+            writer.WriteLine(allScores[i].name + " " + allScores[i].score);
+        }
+        
+        writer.Close();
     }
 }
