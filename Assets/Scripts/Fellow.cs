@@ -1,25 +1,28 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class Fellow : MonoBehaviour
 {
     [SerializeField]
-    private YellowFellowGame game;
+    YellowFellowGame game;
 
     [SerializeField]
-    private LifeCounter lifeCounter;
+    LifeCounter lifeCounter;
 
     [SerializeField]
-    private float speed = 0.5f;
+    float speed = 0.5f;
 
     // Static so they persist in Menus scene
-    private static int lives = 3;
-    private static int score = 0;
+    static int lives = 3;
+    static int score = 0;
 
-    private int pelletsEaten = 0;
-    private const int pointsPerPellet = 100;
-    private Rigidbody rb;
-    private Vector3 startingPos;
+    int pelletsEaten = 0;
+    const int pointsPerPellet = 100;
+    Rigidbody rb;
+    Vector3 startingPos;
+
+    static bool dead = false;
 
     public void ResetPos()
     {
@@ -27,11 +30,12 @@ public class Fellow : MonoBehaviour
         transform.position = startingPos;
     }
 
+    public static bool IsDead() { return dead; }
+    public static void SetDead(bool value) { dead = value; }
     public static int GetScore() { return score; }
-
     public static int GetLives() { return lives; }
 
-    private void Start()
+    void Start()
     {
         rb = GetComponent<Rigidbody>();
         startingPos = transform.position;
@@ -42,45 +46,56 @@ public class Fellow : MonoBehaviour
         lifeCounter.UpdateCounter(lives);
     }
 
-    private void Update()
+    void Update()
     {
-        if (pelletsEaten == YellowFellowGame.NumPellets())
+        if (!dead)
         {
-            YellowFellowGame.NextLevel();
-            pelletsEaten = 0;
-        }
+            if (pelletsEaten == YellowFellowGame.NumPellets())
+            {
+                StartCoroutine(game.NextLevel());
+                pelletsEaten = 0;
+            }
 
-        if (lives <= 0)
+            if (lives <= 0)
+            {
+                SceneManager.LoadScene(0);
+            }
+        }
+        else
         {
-            SceneManager.LoadScene(0);
+            rb.velocity = Vector3.zero;
+            rb.angularVelocity = Vector3.zero;
         }
     }
 
-    private void FixedUpdate()
+    void FixedUpdate()
     {
-        Vector3 velocity = rb.velocity;
+        if (!dead)
+        {
+            Vector3 velocity = rb.velocity;
 
-        if (Input.GetKey(KeyCode.A))
-        {
-            velocity.x -= speed;
-        }
-        if (Input.GetKey(KeyCode.D))
-        {
-            velocity.x += speed;
-        }
-        if (Input.GetKey(KeyCode.W))
-        {
-            velocity.z += speed;
-        }
-        if (Input.GetKey(KeyCode.S))
-        {
-            velocity.z -= speed;
-        }
+            if (Input.GetKey(KeyCode.A))
+            {
+                velocity.x -= speed;
+            }
+            if (Input.GetKey(KeyCode.D))
+            {
+                velocity.x += speed;
+            }
+            if (Input.GetKey(KeyCode.W))
+            {
+                velocity.z += speed;
+            }
+            if (Input.GetKey(KeyCode.S))
+            {
+                velocity.z -= speed;
+            }
 
-        rb.velocity = velocity;
+            rb.velocity = velocity;
+        }
     }
 
-    private void OnTriggerEnter(Collider other)
+    void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.CompareTag("Pellet"))
         {
@@ -90,15 +105,18 @@ public class Fellow : MonoBehaviour
 
         if (other.gameObject.CompareTag("Powerup"))
         {
-            foreach (GhostStateManager g in game.GetGhosts())
+            foreach (GhostStateManager g in YellowFellowGame.GetGhosts())
             {
                 g.Hide();
             }
         }
     }
 
-    public void Die()
+    public IEnumerator Die()
     {
+        dead = true;
+        game.DeathSound();
+        yield return StartCoroutine(game.FadeOut());
         lives--;
         lifeCounter.UpdateCounter(lives);
 
@@ -106,5 +124,12 @@ public class Fellow : MonoBehaviour
         {
             YellowFellowGame.ResetCharsPos();
         }
+        else
+        {
+            SceneManager.LoadScene(0);
+        }
+
+        yield return StartCoroutine(game.FadeIn());
+        dead = false;
     }
 }

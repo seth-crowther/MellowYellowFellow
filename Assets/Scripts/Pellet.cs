@@ -14,7 +14,7 @@ public class Pellet : MonoBehaviour
         
     }
 
-    private void OnTriggerEnter(Collider other)
+    void OnTriggerEnter(Collider other)
     {
         gameObject.SetActive(false);
     }

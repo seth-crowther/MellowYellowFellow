@@ -27,12 +27,14 @@ public class GhostHidingState : IGhostState
         
     }
 
-    private Vector3 PickHidingPlace(GhostStateManager ghost)
+    Vector3 PickHidingPlace(GhostStateManager ghost)
     {
-        Vector3 directionToPlayer = (ghost.GetFellow().transform.position - ghost.transform.position).normalized;
+        Vector3 fellowPos = ghost.GetFellow().transform.position;
+        Vector3 ghostPos = ghost.transform.position;
+        Vector3 directionToPlayer = (fellowPos - ghostPos).normalized;
 
         NavMeshHit navHit;
-        NavMesh.SamplePosition(ghost.transform.position - (directionToPlayer * 8f), out navHit, 8f, NavMesh.AllAreas);
+        NavMesh.SamplePosition(ghostPos - (directionToPlayer * 8f), out navHit, 8f, NavMesh.AllAreas);
 
         return navHit.position;
     }

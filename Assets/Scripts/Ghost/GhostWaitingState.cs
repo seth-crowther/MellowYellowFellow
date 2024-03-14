@@ -8,12 +8,13 @@ public class GhostWaitingState : IGhostState
     {
         start = DateTime.Now;
         ghost.ResetMaterial();
-        ghost.GetAgent().isStopped = true;
         ghost.ResetPos();
+        ghost.GetAgent().isStopped = true;
     }
 
     public void UpdateState(GhostStateManager ghost)
     {
+        ghost.ResetPos();
         TimeSpan elapsedTime = DateTime.Now - start;
         if (elapsedTime.TotalSeconds > waitTime)
         {

@@ -11,14 +11,13 @@ public class GhostTrigger : MonoBehaviour
         ghost = transform.parent.gameObject.GetComponent<GhostStateManager>();
     }
 
-    private void OnTriggerEnter(Collider other)
+    void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.CompareTag("Fellow"))
         {
-            if (ghost.IsChasing())
+            if (ghost.IsChasing() && !Fellow.IsDead())
             {
-                Debug.Log("You Died!");
-                ghost.GetFellow().Die();
+                StartCoroutine(ghost.GetFellow().Die());
             }
             else if (ghost.IsHiding())
             {

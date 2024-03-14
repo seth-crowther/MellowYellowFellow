@@ -3,9 +3,6 @@ using UnityEngine;
 
 public class LevelCounter : MonoBehaviour
 {
-    [SerializeField]
-    YellowFellowGame game;
-
     TextMeshProUGUI text;
 
     void Start()
@@ -15,6 +12,6 @@ public class LevelCounter : MonoBehaviour
 
     void Update()
     {
-        text.text = "Level\n" + game.GetLevel();
+        text.text = "Level\n" + YellowFellowGame.GetLevel();
     }
 }

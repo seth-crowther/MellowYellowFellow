@@ -6,19 +6,19 @@ using UnityEngine.AI;
 public class Teleporter : MonoBehaviour
 {
     [SerializeField]
-    private Teleporter otherTeleporter;
+    Teleporter otherTeleporter;
 
     [SerializeField]
-    private Vector3 teleportOffset;
+    Vector3 teleportOffset;
 
-    private Vector3 destination;
+    Vector3 destination;
 
     void Start()
     {
         destination = transform.position + teleportOffset;
     }
 
-    private void OnTriggerEnter(Collider other)
+    void OnTriggerEnter(Collider other)
     {
         otherTeleporter.TeleportToMe(other.gameObject);
     }

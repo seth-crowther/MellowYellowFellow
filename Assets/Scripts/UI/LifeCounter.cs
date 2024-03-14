@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class LifeCounter : MonoBehaviour
 {
-    private GameObject[] lifeObjects = new GameObject[3];
+    GameObject[] lifeObjects = new GameObject[3];
 
     void Start()
     {

@@ -19,7 +19,7 @@ public class HighScoreTable : MonoBehaviour
     [SerializeField]
     TextMeshProUGUI scoresColumn;
 
-    private const int numScoresShown = 10;
+    const int numScoresShown = 10;
 
     struct HighScoreEntry 
     {
@@ -65,7 +65,10 @@ public class HighScoreTable : MonoBehaviour
         string scores = "";
 
         // Only show top numScoresShown high scores
-        for (int i = 0; i < numScoresShown; i++)
+
+        int maxEntries = Mathf.Min(numScoresShown, allScores.Count);
+
+        for (int i = 0; i < maxEntries; i++)
         {
             names += allScores[i].name + "\n";
             scores += allScores[i].score + "\n";
@@ -80,7 +83,9 @@ public class HighScoreTable : MonoBehaviour
         // Trim text file to top numScoresShown entries so it doesn't increase in size forever
         StreamWriter writer = new StreamWriter("scores.txt");
 
-        for (int i = 0; i < numScoresShown; i++)
+        int maxEntries = Mathf.Min(numScoresShown, allScores.Count);
+
+        for (int i = 0; i < maxEntries; i++)
         {
             writer.WriteLine(allScores[i].name + " " + allScores[i].score);
         }

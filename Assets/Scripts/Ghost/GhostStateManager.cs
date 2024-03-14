@@ -20,29 +20,26 @@ public enum StateType
 public class GhostStateManager : MonoBehaviour
 {
     [SerializeField]
-    private YellowFellowGame game;
+    Fellow fellow;
 
     [SerializeField]
-    private Fellow fellow;
+    Material scaredMaterial;
+    Material normalMaterial;
 
-    [SerializeField]
-    private Material scaredMaterial;
-    private Material normalMaterial;
+    Vector3 startingPos;
 
-    private Vector3 startingPos;
-
-    private NavMeshAgent agent;
+    NavMeshAgent agent;
 
     const float speedPerLevel = 0.15f;
-    private float initialSpeed = 1.5f;
+    float initialSpeed = 1.5f;
 
     // State machine
-    private Dictionary<StateType, IGhostState> stateParser;
-    private IGhostState currentState;
-    private GhostChasingState chasingState;
-    private GhostHidingState hidingState;
-    private GhostEatenState eatenState;
-    private GhostWaitingState waitingState;
+    Dictionary<StateType, IGhostState> stateParser;
+    IGhostState currentState;
+    GhostChasingState chasingState;
+    GhostHidingState hidingState;
+    GhostEatenState eatenState;
+    GhostWaitingState waitingState;
 
     public Fellow GetFellow() { return fellow; }
     public NavMeshAgent GetAgent() { return agent; }
@@ -79,7 +76,7 @@ public class GhostStateManager : MonoBehaviour
         gameObject.layer = LayerMask.NameToLayer("Ghost");
     }
 
-    private void InitialiseStateParser()
+    void InitialiseStateParser()
     {
         stateParser = new Dictionary<StateType, IGhostState>
         {
@@ -114,11 +111,14 @@ public class GhostStateManager : MonoBehaviour
     void Update()
     {
         currentState.UpdateState(this);
+
+        if (Fellow.IsDead()) { agent.isStopped = true; }
+        else { agent.isStopped = false; }
     }
 
     public void UpdateSpeed()
     {
-        agent.speed = initialSpeed + game.GetLevel() * speedPerLevel;
+        agent.speed = initialSpeed + YellowFellowGame.GetLevel() * speedPerLevel;
     }
 
     public void SwitchState(StateType newState)

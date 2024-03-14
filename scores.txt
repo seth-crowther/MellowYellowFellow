@@ -1,5 +1,4 @@
-Seth 14000
-Seth 14000
+Seth 17000
 Seth 10400
 Karl 9050
 Ash 8600
@@ -7,4 +6,3 @@ Stuart 8500
 Chris 8000
 Izzie 7500
 Steve 6200
-Bobbi 4900
